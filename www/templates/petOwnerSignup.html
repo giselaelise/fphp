@@ -1,33 +1,29 @@
 <ion-view title="Pet Owner Signup" id="page5">
   <ion-content padding="true" class="has-header">
-    <form id="petOwnerSignup-form3" class="list">
+    <form id="petOwnerSignup-form3" class="list" ng-submit="signUp(data)">
       <ion-list id="petOwnerSignup-list3">
         <label class="item item-input" id="petOwnerSignup-input6">
-          <span class="input-label">Username</span>
-          <input type="text" placeholder="">
+          <span class="input-label">Email</span>
+          <input ng-model="data.email" type="text" placeholder="">
         </label>
         <label class="item item-input" id="petOwnerSignup-input5">
           <span class="input-label">Password</span>
-          <input type="text" placeholder="">
+          <input ng-model="data.password" type="text" placeholder="">
         </label>
         <label class="item item-input" id="petOwnerSignup-input7">
           <span class="input-label">Name</span>
-          <input type="text" placeholder="">
+          <input ng-model="data.name" type="text" placeholder="">
         </label>
         <label class="item item-input" id="petOwnerSignup-input10">
           <span class="input-label">Address</span>
-          <input type="text" placeholder="">
+          <input ng-model="data.address" type="text" placeholder="">
         </label>
         <label class="item item-input" id="petOwnerSignup-input14">
           <span class="input-label">Zip Code</span>
-          <input type="text" placeholder="">
-        </label>
-        <label class="item item-input" id="petOwnerSignup-input11">
-          <span class="input-label">Email</span>
-          <input type="text" placeholder="">
+          <input ng-model="data.zipcode" type="text" placeholder="">
         </label>
       </ion-list>
-      <a ui-sref="petOwnerSignup2" id="petOwnerSignup-button4" class="button button-stable  button-block">Next</a>
+      <button type="submit" id="petOwnerSignup-button4" class="button button-stable  button-block">Next</button>
     </form>
   </ion-content>
 </ion-view>
