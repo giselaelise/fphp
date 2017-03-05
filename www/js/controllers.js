@@ -84,6 +84,15 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
+  $scope.signUp = function(data){
+    console.log("signUp");
+    database.ref("petOwner/" + firebase.auth().currentUser.uid).set({
+      petName: data.petName,
+      petAge: data.petAge,
+      petBreed: data.petBreed,
+      availability: data.availability
+
+    }  
 
 }])
 
