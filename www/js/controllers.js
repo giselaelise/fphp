@@ -79,21 +79,23 @@ function ($scope, $stateParams) {
 
 }])
 
-.controller('petOwnerSignup2Ctrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('petOwnerSignup2Ctrl', ['$scope', '$stateParams', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $location) {
 
   $scope.signUp = function(data){
     console.log("signUp");
-    database.ref("petOwner/" + firebase.auth().currentUser.uid).set({
+    var pet = database.ref("pet").push();
+    pet.set({
       petName: data.petName,
       petAge: data.petAge,
       petBreed: data.petBreed,
-      availability: data.availability
-
-    }  
-
+      availability: data.availability,
+      owner: firebase.auth().currentUser.uid
+    });
+  $location.path('/page9');  
+  }
 }])
 
 .controller('registrationCompleteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
