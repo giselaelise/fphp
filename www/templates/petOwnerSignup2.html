@@ -2,9 +2,8 @@
   <ion-content padding="true" class="has-header">
     <form id="petOwnerSignup2-form6" class="list" ng-submit="signUp(data)">
       <div id="petOwnerSignup2-button-bar1" class="button-bar">
-        <button id="petOwnerSignup2-button20" class="button button-positive  button-block">Cat</button>
-        <button id="petOwnerSignup2-button21" class="button button-positive  button-block">Dog</button>
-        <button id="petOwnerSignup2-button22" class="button button-positive  button-block">Other</button>
+        <button id="cat-button" type="button" ng-click="cat()" class="button button-loyal  button-block">Cat</button>
+        <button id="dog-button" type="button" ng-click="dog()" class="button button-loyal  button-block">Dog</button>
       </div>
       <ion-list id="petOwnerSignup2-list5">
         <label class="item item-input" id="petOwnerSignup2-input15">
@@ -26,7 +25,7 @@
           <span class="input-label">Availability</span>
           <input ng-model="data.availability" type="text" placeholder="">
         </label>
-      
+
       </ion-list>
       <div>
         <img src="img/pydjqZ4kTxiTQi5F66Ds_CATPIC.jpg" style="display: block; width: 50%; height: 50%; margin-left: auto; margin-right: auto;">
