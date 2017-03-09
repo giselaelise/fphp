@@ -9,7 +9,6 @@ function ($scope, $stateParams, $location) {
   if (firebase.auth().currentUser) {
     firebase.auth().signOut();
   }
-
 }])
 
 .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -97,18 +96,24 @@ function ($scope, $stateParams, $location) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $location) {
-   $scope.login = function(crendentials){
-     console.log("login");
-     firebase.auth().signInWithEmailAndPassword(crendentials.email, crendentials.password).then(function(user){
-       $scope.$apply(function(){
-         $location.path('/page4');
-       });
-     }, function(error){
-       alert(error);
-     });
-   };
-
-
+  $scope.login = function(crendentials){
+    console.log("login");
+    firebase.auth().signInWithEmailAndPassword(crendentials.email, crendentials.password).then(function(user){
+      database.ref("petOwner/" + user.uid).once("value").then(function(owner){
+        if (owner.val() == null) {
+          $scope.$apply(function() {
+            $location.path('/page4');
+          });
+        } else {
+          $scope.$apply(function() {
+            $location.path('/page19');
+          });
+        }
+      });
+    }, function(error){
+      alert(error);
+    });
+  };
 }])
 
 .controller('page7Ctrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
