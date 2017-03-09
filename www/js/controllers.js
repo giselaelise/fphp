@@ -32,7 +32,6 @@ function ($scope, $stateParams, $location) {
   var geocoder = new google.maps.Geocoder();
 
   database.ref('pet').on('value', function(snapshot){
-    console.log(snapshot.val());
     $scope.$evalAsync(function(){
       $scope.pets = snapshot.val();
     });
@@ -44,27 +43,27 @@ function ($scope, $stateParams, $location) {
 
     for (var pet in snapshot.val()){
       var petData = snapshot.val()[pet];
-      console.log (petData.petType);
       database.ref('petOwner/' + petData.owner).once("value").then(function(owner){
-        console.log(owner.val().address);
         geocoder.geocode({"address": owner.val().address + ' ' + owner.val().zipCode},
           function(results, status) {
-            console.log(results[0].geometry.location)
             var marker = new google.maps.Marker({
               position: results[0].geometry.location,
               map: map,
               icon: "https://s3.amazonaws.com/fphp/" + this.petData.petType + ".png"
             });
-            console.log(petData.petType);
+
+            marker.addListener('click', function(){
+              $scope.$apply(function(){
+                console.log(this.pet);
+                $location.path('/page16').search({pet: this.pet});
+              }.bind({pet: this.pet}));
+            }.bind({pet: this.pet}));
+
             markers.push(marker);
-          }.bind({petData: this.petData}));
-      }.bind({petData: petData}));
+          }.bind({petData: this.petData, pet: this.pet}));
+      }.bind({petData: petData, pet: pet}));
     }
   });
-
-  $scope.goToPetProfile = function(){
-    $location.path('/page16');
-  }
 
 }])
 
@@ -138,7 +137,8 @@ function ($scope, $stateParams, $location) {
       petAge: data.petAge,
       petBreed: data.petBreed,
       availability: data.availability,
-      owner: firebase.auth().currentUser.uid
+      owner: firebase.auth().currentUser.uid,
+      petSize: data.size
     });
     $location.path('/page9');
   }
@@ -202,11 +202,21 @@ function ($scope, $stateParams) {
 
 }])
 
-.controller('petProfileCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('petProfileCtrl', ['$scope', '$stateParams', '$location', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
+function ($scope, $stateParams, $location) {
+  console.log("petProfile");
+  console.log($location.search().pet);
+  database.ref('pet/' + $location.search().pet).once("value").then(function(pet){
+    $scope.name = pet.val().petName;
+    $scope.age = pet.val().petAge;
+    $scope.breed = pet.val().petBreed;
+    $scope.availability = pet.val().availability;
+    $scope.size = pet.val().petSize;
+    $scope.type = pet.val().petType;
+    console.log(pet.val().petSize)
+  })
 
 }])
 
