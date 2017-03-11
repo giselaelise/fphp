@@ -3,8 +3,13 @@
     <button class="button button-icon icon No Icon"></button>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
-    <div id="petRequests-markdown9" class="show-list-numbers-and-dots">
+    <!--div id="petRequests-markdown9" class="show-list-numbers-and-dots">
       <p style="color:#000000;">You have (0) requests</p>
-    </div>
+    </div-->
+    <ion-list id="list1">
+      <ion-item id="list-item4" ng-repeat="(id, data) in requests">
+        {{data.seekerName}} ({{data.seekerEmail}}) would like a visit with {{data.petName}}
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

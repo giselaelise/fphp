@@ -270,6 +270,20 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
+  database.ref('request/' + firebase.auth().currentUser.uid).on("value", function(snapshot){
+    $scope.$evalAsync(function(){
+      $scope.requests = snapshot.val();
+      for (request in $scope.requests) {
+        database.ref('pet/' + $scope.requests[request].pet).once("value").then(function(pet){
+          $scope.requests[this.request].petName = pet.val().petName;
+        }.bind({request: request}));
 
+        database.ref('petSeeker/' + $scope.requests[request].seeker).once("value").then(function(seeker){
+          $scope.requests[this.request].seekerName = seeker.val().name;
+          $scope.requests[this.request].seekerEmail = seeker.val().email;
+        }.bind({request: request}));
+      }
+    });
+  });
 
 }])
