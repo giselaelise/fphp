@@ -220,10 +220,19 @@ function ($scope, $stateParams, $location) {
     $scope.availability = pet.val().availability;
     $scope.size = pet.val().petSize;
     $scope.type = pet.val().petType;
-    console.log(pet.val().petSize)
+    $scope.petOwner = pet.val().owner;
   })
 
+  $scope.requestVisit = function() {
+    var request = database.ref("request/" + $scope.petOwner).push();
+    request.set({
+      seeker: firebase.auth().currentUser.uid,
+      pet: $location.search().pet
+    });
+    $location.path('/page17');
+  }
 }])
+
 
 .controller('reminderCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
