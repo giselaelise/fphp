@@ -146,7 +146,7 @@ function ($scope, $stateParams, $location) {
       owner: firebase.auth().currentUser.uid,
       petSize: data.size
     });
-    $location.path('/page9');
+    $location.path('/page18');
   }
 
   $scope.cat = function() {
