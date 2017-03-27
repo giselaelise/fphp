@@ -140,11 +140,12 @@ function ($scope, $stateParams, $location) {
     pet.set({
       petType: type,
       petName: data.petName,
-      petAge: data.petAge,
+//      petAge: data.petAge,
       petBreed: data.petBreed,
       availability: data.availability,
       owner: firebase.auth().currentUser.uid,
-      petSize: data.size
+//      petSize: data.size,
+      photo: $scope.photo
     });
     $location.path('/page18');
   }
@@ -159,6 +160,17 @@ function ($scope, $stateParams, $location) {
     document.getElementById('dog-button').className = 'button button-positive  button-block';
     document.getElementById('cat-button').className = 'button button-loyal  button-block';
   }
+
+  document.getElementById("photo-upload").addEventListener('change', function(e){
+    var file = e.target.files[0];
+    console.log(file);
+    var img = firebase.storage().ref().child(firebase.auth().currentUser.uid + "/" + file.name);
+    document.getElementById("addPhoto").style.display = 'none';
+    img.put(file).then(function(snapshot) {
+      $scope.photo = this.file.name;
+      document.getElementById("photo").src = URL.createObjectURL(this.file);
+    }.bind({file: file}));
+  }, false);
 }])
 
 .controller('registrationCompleteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -216,12 +228,15 @@ function ($scope, $stateParams, $location) {
   console.log($location.search().pet);
   database.ref('pet/' + $location.search().pet).once("value").then(function(pet){
     $scope.name = pet.val().petName;
-    $scope.age = pet.val().petAge;
+//    $scope.age = pet.val().petAge;
     $scope.breed = pet.val().petBreed;
     $scope.availability = pet.val().availability;
-    $scope.size = pet.val().petSize;
+//    $scope.size = pet.val().petSize;
     $scope.type = pet.val().petType;
     $scope.petOwner = pet.val().owner;
+    firebase.storage().ref($scope.petOwner + "/" + pet.val().photo).getDownloadURL().then(function(url) {
+      $scope.photo = url;
+    });
   })
 
   $scope.requestVisit = function() {
